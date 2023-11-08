@@ -1,0 +1,29 @@
+.content-navigation {
+    position: absolute !important;
+    width: 104%;
+    left: -18px;
+    padding: 16px;
+    height: 48px;
+    top: 50%;
+}
+.content-swiper-nav.swiper-button-next {
+    right: -8px;
+    background-color: var(--tertiary-color-200);
+    color: var(--tertiary-color);
+    border-radius: 50%;
+    height: 24px;
+    width: 24px;
+}
+.content-swiper-nav.swiper-button-prev {
+    left: -8px;
+    background-color: var(--tertiary-color-200);
+    color: var(--tertiary-color);
+    border-radius: 50%;
+    height: 24px;
+    width: 24px;
+}
+.swiper-button-next:after,
+.swiper-button-prev:after {
+    font-size: 12px !important;
+}
+

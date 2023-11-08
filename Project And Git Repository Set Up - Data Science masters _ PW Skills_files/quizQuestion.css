@@ -1,0 +1,104 @@
+/*QUIZ RESULT PAGE CSS - START*/
+
+.review-button-container {
+    position: fixed;
+    bottom: 0;
+    background: white;
+    padding: 16px;
+    width: 100%;
+    left: 0;
+    box-shadow: 0px 3px 8px rgb(0 0 0 / 6%);
+}
+
+#questionCard {
+    margin-bottom: 120px !important;
+}
+
+
+#questionCard .card-body {
+    width: 75%;
+    padding:8px 0;
+}
+
+.timeCounter, .timeCounter span {
+    min-width: 60px;
+}
+
+.option-content, .option-selected {
+    box-shadow: 1px 1px 11px rgba(0, 0, 0, 0.09);
+    border-radius: 8px !important;
+    border: 2px solid var(--white-color) !important;
+}
+
+.option-selected {
+    border-color: var(--secondary-color) !important;
+}
+
+.questions-container > p, .questions-review-container > h5 > p {
+    margin-bottom: 0;
+}
+
+#quiz-action {
+    background-color: var(--tertiary-color-200) !important;
+    text-align: center !important;
+}
+
+.subjective-answer {
+    background-attachment: local;
+    background-image:
+            linear-gradient(to right, white 10px, transparent 10px),
+            linear-gradient(to left, white 10px, transparent 10px),
+            repeating-linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, white 31px);
+    line-height: 31px;
+    padding: 8px 10px;
+    border: 1px solid var(--tertiary-color-300);
+}
+
+.subjective-answer:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid var(--tertiary-color-300);
+}
+
+.selected{
+    border: 2px solid var(--secondary-color) !important;
+}
+
+.questions-displayText > p,
+.questions-displayText > p > span{
+    color: var(--tertiary-color) !important;
+}
+
+.questions-displayText > p > img {
+    width: 100% !important;
+    max-width: 250px;
+}
+
+@media (max-width: 768px) {
+    .quizzes {
+        padding: 0 16px 0px 16px;
+    }
+
+    #questionCard .card-body {
+        width: 100%;
+        padding:8px 16px;
+    }
+
+    .quiz-additional, .questions-container {
+        padding:4px 16px !important;
+    }
+    #quiz-action {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1280px) {
+    .main-container-header,.quiz-additional, #questionCard {
+        padding:8px 32px;
+    }
+}
+
+/*QUIZ RESULT PAGE CSS - END*/

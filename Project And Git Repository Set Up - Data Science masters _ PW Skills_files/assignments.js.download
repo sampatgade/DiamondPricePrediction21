@@ -1,0 +1,19 @@
+const AssignmentsServices = {
+  getUserAssignment: async ({userHash, statusList, contentType, dueWithInDays, pageNumber = 1, pageSize = 5}) => {
+    let url = `/spark/rest/admin/v1/assignments/user/${userHash}?contentType=${contentType}&statusList=${statusList}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    if (dueWithInDays !== undefined) {
+      url += `&dueWithInDays=${dueWithInDays}`;
+    }
+    return seekhoRequest.get({ url, isAuthorized: true });
+  }
+  ,
+  enrollForContent : async ({accessCode = "", contentHash}) => {
+    let url;
+    if(accessCode.length > 0) {
+        url = `/spark/rest/admin/v1/assignments/enroll/${contentHash}?accessCode=${accessCode}`
+    } else {
+      url = `/spark/rest/admin/v1/assignments/enroll/${contentHash}`
+    }
+    return seekhoRequest.get({url,isAuthorized: true,reloadPage:true})
+  },
+}

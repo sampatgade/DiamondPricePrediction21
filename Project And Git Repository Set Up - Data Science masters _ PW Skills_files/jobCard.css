@@ -1,0 +1,151 @@
+a {
+    text-decoration: none !important;
+}
+
+html, body {
+    overflow-x: hidden;
+}
+
+.job-card-container {
+    background: #FFFFFF;
+    box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.14);
+    border-radius: 16px;
+    height: 310px;
+    padding: 18px;
+}
+
+.job-basic-detail-div {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 2px solid #ECF1F4;
+    height: 180px;
+    margin-bottom: 16px;
+}
+
+.job-extra-detail-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 28px;
+}
+
+.org-detail-div{
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.org-logo {
+    width: 85px;
+    height: 85px;
+    border: 1px solid #ECF1F4;
+    border-radius: 9px;
+}
+
+.org-name{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--tertiary-color);
+}
+
+.job-title{
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--tertiary-color);
+    margin-bottom: 16px;
+}
+
+.job-salary-location-div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--tertiary-color);
+}
+
+.job-card-footer-div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.job-action-btn-div{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.save-btn{
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--secondary-color);
+}
+
+.apply-btn{
+    padding: 4px 18px !important;
+}
+
+.job-skills-container{
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.job-skill-pill{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 3px 12px;
+    border-radius: 12px;
+    width: fit-content;
+}
+
+.job-skills-text{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    color: var(--tertiary-color);
+}
+
+.job-type-pills{
+    background-color: var(--secondary-color-100);
+    width: fit-content;
+    padding: 4px 16px;
+    border-radius: 16px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 10px;
+    color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+    .job-card-container {
+        height: 310px;
+    }
+
+    .job-basic-detail-div {
+        height: 185px;
+    }
+
+    .job-provider-logo{
+        width: 64px !important;
+    }
+}
+
+
+
+
+

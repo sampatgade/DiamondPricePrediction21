@@ -1,0 +1,303 @@
+import {addElementToDOM, isJsonString} from "./utils.js";
+import {createRetryRequest} from './request.js'
+import initBot from "./botChat.js";
+import {
+	loggedInUser,
+	userLogin,
+	userOtp,
+	checkIfUserExists,
+	createUser,
+	getUserDataAndLogin,
+	userProfileUpdate,
+	updateUserEducation,
+	updateUserExperience,
+	getUpdatedUser,
+} from "./service.js";
+
+import {
+	loadingInterViewScreen,
+	loginFormTemplate,
+} from "./template.js"
+
+import {
+	addChatContainer, addDelay,
+	createCloseButton,
+	createIframeButtonElement,
+} from "./helper.js";
+
+import mockInterview from "./mockInterview.js";
+
+let newUser =  false;
+
+const iframeButton = createIframeButtonElement();
+
+async function updateUserResumeInfo({education, experience} = {}) {
+	loggedInUser.user = {
+		...loggedInUser.user,
+		detail: {
+			...loggedInUser.detail,
+			experience,
+			education,
+			profileFilled: true
+		}
+	}
+	
+	window.parent.postMessage(JSON.stringify({
+		type: 'UPDATE_USER_INFO',
+		user: {
+			...loggedInUser.user
+		}
+	}), '*');
+	
+	await Promise.all([
+			createRetryRequest(updateUserExperience)(experience),
+			createRetryRequest(updateUserEducation)(education)
+	])
+	
+	await mockInterview.generatePersonalisedMessage()
+}
+
+const onEmailInputChange = (e) => {
+	e.target.classList.remove('error');
+}
+
+const addLoginInputs = () => {
+	if (!document.getElementById("loginForm")) {
+		
+		const bookmarksElement = document.getElementById("bookmarks");
+		const loginTemplate = loginFormTemplate()
+		
+		const divElement = document.createElement('div');
+		divElement.id = 'loginForm'
+		divElement.style.padding = '40px'
+		divElement.style.marginTop = '20%'
+		divElement.innerHTML = loginTemplate;
+		
+		bookmarksElement.appendChild(divElement)
+		
+		const otpButtonElement = document.getElementById("otpButton");
+		const buttonElement = document.getElementById("login");
+		const socialButtonElement = document.getElementById("social");
+		const emailElement = document.getElementById("email");
+		
+		emailElement.removeEventListener('click', onEmailInputChange)
+		buttonElement.removeEventListener('click', onUserLogin)
+		otpButtonElement.removeEventListener('click', onUserOtp)
+		socialButtonElement.removeEventListener('click', onSocialLogin)
+		
+		emailElement.addEventListener('click', onEmailInputChange)
+		buttonElement.addEventListener('click', onUserLogin)
+		otpButtonElement.addEventListener('click', onUserOtp)
+		socialButtonElement.addEventListener('click', onSocialLogin)
+		
+		buttonElement.style.display = 'none'
+	}
+}
+
+const onSocialLogin = async () =>{
+	const socialElement = document.getElementById('social')
+	socialElement.disabled = true;
+	window.parent.postMessage(JSON.stringify({
+		type: 'GOOGLE_LOGIN',
+	}), '*');
+}
+
+function validateEmail(email) {
+	const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+	return email.match(validRegex)
+}
+
+const onUserOtp = async () => {
+	newUser = false;
+	const emailElement = document.getElementById("email");
+	const loginButtonElement = document.getElementById("login");
+	
+	const nameSectionElement = document.getElementById("nameSection");
+	const otpSectionElement = document.getElementById("otpSection");
+	const otpButtonElement = document.getElementById("otpButton");
+	
+	const email = emailElement.value;
+	
+	emailElement.classList.remove('error');
+	
+	if(!validateEmail(email)) {
+		emailElement.classList.add('error')
+		return;
+	}
+	
+	const userExistResponse = await checkIfUserExists(email)
+	const isUserExists = await userExistResponse.json().then((res)=> Boolean(res.data))
+	
+	if(!isUserExists) {
+		nameSectionElement.style.display = 'block'
+		newUser = true;
+	}
+	
+	const response = await userOtp(email);
+	
+	if (response?.status === 200) {
+		emailElement.readOnly = true
+		otpSectionElement.style.display = 'block'
+		loginButtonElement.style.display = 'block'
+		otpButtonElement.style.display = 'none'
+	}
+}
+
+const onUserLogin = async () => {
+	const loginButton = document.getElementById("login");
+	try {
+		const emailElement = document.getElementById("email");
+		const otpElement = document.getElementById("otp");
+		const nameElement = document.getElementById("name");
+		
+		if(!Boolean(otpElement?.value) || otpElement?.value?.length !== 4) return;
+		if(newUser && (!Boolean(nameElement?.value) || nameElement?.value?.length < 3)) return;
+		
+		loginButton.disabled = true;
+		
+		if(newUser) {
+			await createUser({email: emailElement.value, name: nameElement.value, otp: otpElement.value})
+		}
+		
+		await userLogin({email: emailElement.value, otp: otpElement.value})
+	} catch (e) {
+		loginButton.disabled = false;
+		console.log(e)
+	}
+}
+
+const userInfoValidate = () => {
+	const bookmarksElement = document.getElementById("bookmarks");
+	const chatContainerElement = document.getElementById("chatContainer");
+	if (!loggedInUser?.user?.userStatus) {
+		bookmarksElement.innerHTML = '';
+		document.getElementById("loginForm")?.remove();
+		bookmarksElement.style.display = 'block'
+		chatContainerElement.style.display = 'none'
+		addLoginInputs();
+	}
+};
+
+function truncate(words = '', maxlength) {
+	if (words.length <= maxlength) {
+		return words
+	}
+	return `${words.slice(0, maxlength)} …`
+}
+
+async function initChat(job = {}) {
+	try {
+		mockInterview.setup(job);
+		const {headerTitleElement} = addChatContainer({timer: true, share: true, menu: true});
+		const interPrepLoadingElem = addInterPrepLoadingScreen();
+		const progressElem = document.getElementById('prepare-interview-progress');
+		const submitAnswerElement = document.getElementById('submitAnswer');
+		const finishInterviewElement = document.getElementById('finishInterview');
+		finishInterviewElement.disabled = true
+		submitAnswerElement.disabled = true
+		
+		const jobDetail = await mockInterview.fetchJobInfo();
+		const {organisationDTO = {}, title} = jobDetail || {}
+		
+		progressElem.className = 'progress-bar bg-success'
+		progressElem.style.width = '70%'
+		
+		headerTitleElement.innerHTML = `${truncate(title, 26)} - ${truncate(organisationDTO?.name, 26)}`
+		//headerCompanyElement.innerHTML = `${truncate(organisationDTO?.name, 26)}`
+		
+		progressElem.style.width = '100%';
+		await addDelay(2000);
+		interPrepLoadingElem.remove()
+		
+		if(loggedInUser.user.userStatus) {
+			await mockInterview.init();
+		} else {
+			userInfoValidate()
+		}
+	} catch (e) {
+		console.log(e)
+	}
+}
+
+async function initInterview(job){
+	mockInterview.setup(job)
+	await mockInterview.init()
+}
+
+function addInterPrepLoadingScreen() {
+	const interviewPrepTemplate = loadingInterViewScreen()
+	const seekhoPluginElement = document.getElementById('seekho-plugin');
+	const loadingElem = addElementToDOM(interviewPrepTemplate, seekhoPluginElement);
+	
+	const closeElement = createCloseButton(function () {
+		loadingElem.remove()
+	});
+	
+	closeElement.style.color = 'white'
+	loadingElem.append(closeElement);
+	return loadingElem
+}
+
+async function updateLinkedInHandle(handle) {
+	const {detail = {}} = loggedInUser || {}
+	const {email, phone} = detail || {}
+	await userProfileUpdate({
+		linkedInUrl: handle,
+		email,
+		phone,
+	})
+	
+	const user = await getUpdatedUser(loggedInUser.token);
+	
+	window.parent.postMessage(JSON.stringify({
+		type: 'UPDATE_USER_INFO',
+		user: {...user, detail: user.detail || {}}
+	}), '*');
+}
+
+async function parentWindowMessageLister(e){
+	const data = isJsonString(e.data) ? JSON.parse(e.data) : e.data
+	const {type, data: user, profileInfo = {}, botInfo = {}, token, linkedInHandle, error} = data
+	if (type === 'USER_INFO') {
+		if(user) {
+			loggedInUser.user = user
+		} else {
+			loggedInUser.user = data
+		}
+		userInfoValidate();
+	} else if (type === 'JOB_INFO') {
+		if(loggedInUser.user.userStatus) {
+			await initChat(data?.job)
+		}
+	} else if (type === 'INIT_BOT') {
+		loggedInUser.user = user;
+		await initBot(botInfo);
+	} else if (type === 'CHAT_SETUP') {
+		loggedInUser.user = user;
+		document.body.appendChild(iframeButton);
+	} else if (type === 'USER_LINKEDIN_HANDLE') {
+		loggedInUser.user = user;
+		updateLinkedInHandle(linkedInHandle)
+	} else if (type === 'UPDATE_USER_PROFILE') {
+		updateUserResumeInfo(profileInfo);
+	} else if (type === 'LOGIN') {
+		addLoginInputs();
+	} else if (type === 'SOCIAL_LOGIN') {
+		if(error) {
+			const socialElement = document.getElementById('social');
+			socialElement.disabled = false;
+			return;
+		}
+		getUserDataAndLogin({token})
+	}
+}
+
+window.addEventListener('message', parentWindowMessageLister);
+
+/**
+ * Exporting functions for external use *
+ */
+window.loggedInUser = (user) => loggedInUser.user = user;
+window.initInterview = initInterview;
+window.initBot = initBot;
+

@@ -1,0 +1,76 @@
+function shareModal(){
+  $(document.body).on('click', '.share-button', function (el) {
+     // Share Video
+     let whatsapp = "https://web.whatsapp.com/send?text=";
+     let facebook = "https://www.facebook.com/sharer/sharer.php?u";
+     let linkedin = "https://www.linkedin.com/feed/?shareActive&mini=true&text=";
+     let twitter =  "https://twitter.com/intent/tweet?text=";
+     let start_message = $(this).attr('data-start-message');
+     let end_message = $(this).attr('data-end-message');
+     let shareUrl = $("#shareUrl").val() || $(this).attr('data-share-url');
+     let openShareModal = $(this).attr('data-open-modal') && $(this).attr('data-open-modal') === 'true';
+     if(shareUrl === undefined || shareUrl === '') {
+         shareUrl = window.location.href;
+     }
+     if(start_message === undefined || start_message === ''){
+         start_message = "Hello! I'm sharing this from Seekho: ";
+     }
+     if(end_message === undefined || end_message === ''){
+         end_message = " - I am sure you will find it helpful.";
+     }
+      const mediaQuery = window.matchMedia('(max-width:768px)')
+      if(mediaQuery.matches){
+        whatsapp = "whatsapp://send?text="
+      }
+
+     let share_message = start_message + shareUrl + end_message;
+     $('#whatsapp').attr('href', whatsapp + share_message);
+     $('#facebook').attr('href', facebook + share_message);
+     $('#linkedin').attr('href', linkedin + share_message);
+     $('#twitter').attr('href', twitter + share_message);
+
+     $('#share_message').text(share_message);
+     document.getElementById('copy-button').onclick = function () {
+         let copyText = document.getElementById('share_message');
+         copyText.select();
+         copyText.setSelectionRange(0, 99999);
+         document.execCommand("copy");
+         alert("link copied");
+     }
+     if (openShareModal) { $('#shareModal').show() }
+ });
+
+  if(token !== undefined && token !== "") {
+      // Share count increment
+    $('.share-on-button').on('click', function () {
+        let shareCount = parseInt($("#share-count").text().trim().replace(',', ''));
+        $('#share-count').text(shareCount + 1);
+
+        var requestObject = {};
+        requestObject["key"] = $('#key').val();
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: lmsDomain + "/spark/rest/admin/v1/videos/mark/SHARED",
+            headers: {
+                "account-id": "131",
+                "authorization": "Bearer " + token
+            },
+            dataType: 'json',
+            data: JSON.stringify(requestObject),
+            cache: false,
+            timeout: 60000,
+            success: function (data) {
+            },
+            error: function (e) {
+                console.log("Error!");
+            }
+        });
+    });
+  }
+}
+
+$(document).ready(function () {
+    let token = getCookie("token");
+    shareModal();
+});

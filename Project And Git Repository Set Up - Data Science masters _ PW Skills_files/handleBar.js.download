@@ -1,0 +1,845 @@
+//Link to helpers - https://github.com/helpers/handlebars-helpers
+
+// Helper to render other handlbars-template script
+Handlebars.registerHelper('render', function (partialId, options) {
+  var selector = 'script[type="text/x-handlebars-template"]#' + partialId,
+      source = $(selector).html(),
+      html = Handlebars.compile(source)(options);
+  return new Handlebars.SafeString(html);
+});
+
+// Define the Handlebars helper
+Handlebars.registerHelper('yearmonthFormat', function(epochTimeInSeconds, format) {
+  const date = new Date(epochTimeInSeconds);
+  const year = date.getFullYear();
+  let month = date.getMonth();
+
+  const monthNames = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ];
+
+  if (format === 'MMM YYYY') {
+    return `${monthNames[month]} ${year}`;
+  } else {
+    month = month < 10  ? '0' + (month+1) : (month+1);
+    return `${year}-${month}`;
+  }
+});
+
+Handlebars.registerHelper('tagUserMessage', function (msg) {
+  const splittedMsg = msg.split(' ');
+  let newHtmlMsg = '';
+  splittedMsg.map(text => {
+    if (text.charAt(0) === '@') {
+      newHtmlMsg += `<a href="/profile/${text.slice(1)}" target="_blank" class="text-primary">${text}</a> `
+    } else {
+      newHtmlMsg += `${text} `;
+    }
+  });
+  return new Handlebars.SafeString(newHtmlMsg);
+});
+
+Handlebars.registerHelper('camelCaseToSpace', function (str) {
+  // Split the camelCase string by uppercase letters
+  const words = str.split(/(?=[A-Z])/);
+
+  // Join the words with spaces and return the result
+  return words.join(' ');
+});
+
+Handlebars.registerHelper('camelCase', function(str) {
+  if (typeof str !== 'string') {
+    return '';
+  }
+
+  const words = str.split(' ');
+
+  const camelCaseWords = words.map((word, index) => {
+    if (index === 0) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    }
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  });
+
+  return camelCaseWords.join(' ');
+});
+
+
+Handlebars.registerHelper('increment', function (v1, v2) {
+  return v1 + v2;
+});
+
+Handlebars.registerHelper('stringify', function (str) {
+  return JSON.stringify(str);
+});
+
+Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
+  switch (operator) {
+    case "==":
+      return (v1 == v2) ? options.fn(this) : options.inverse(this);
+
+    case "!=":
+      return (v1 != v2) ? options.fn(this) : options.inverse(this);
+
+    case "===":
+      return (v1 === v2) ? options.fn(this) : options.inverse(this);
+
+    case "!==":
+      return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+
+    case "&&":
+      return (v1 && v2) ? options.fn(this) : options.inverse(this);
+
+    case "||":
+      return (v1 || v2) ? options.fn(this) : options.inverse(this);
+
+    case "<":
+      return (v1 < v2) ? options.fn(this) : options.inverse(this);
+
+    case "&lt;":
+      return (v1 < v2) ? options.fn(this) : options.inverse(this);
+
+
+    case "<=":
+      return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+
+    case ">":
+      return (v1 > v2) ? options.fn(this) : options.inverse(this);
+
+    case ">=":
+      return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+
+    default:
+      return eval("" + v1 + operator + v2) ? options.fn(this) : options.inverse(this);
+  }
+});
+
+Handlebars.registerHelper("formatDate", function (datetime, format) {
+  if (moment) {
+    return moment(datetime).tz(moment.tz.guess(true)).format(format);
+  }
+  return datetime;
+});
+
+Handlebars.registerHelper("dateEquality", function (time1, time2, options) {
+  const dataCheck = moment(time1).format('DD-MM-YYYY') === moment(time2).format('DD-MM-YYYY');
+  if (dataCheck) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
+Handlebars.registerHelper("formatEventDateAndTime", function (eventStartDate, eventEndDate, dateFormat) {
+  if (moment) {
+    const formattedStartDate = moment(eventStartDate).tz(moment.tz.guess(true)).format(dateFormat);
+    const formattedEndDate = moment(eventEndDate).tz(moment.tz.guess(true)).format(dateFormat)
+    const presentDate = moment(Date.now()).tz(moment.tz.guess(true)).format(dateFormat);
+    const eventStartTime = moment(eventStartDate).tz(moment.tz.guess(true)).format('hh:mm a z');
+    const currentTime = new Date().getTime()
+    if (formattedStartDate === presentDate) {
+      if ((eventStartDate - currentTime) / (60 * 60 * 1000) > 1) {
+        return 'starting in ' + Math.round((eventStartDate - currentTime) / (60 * 60 * 1000)).toString() + ' hours';
+      } else if ((eventStartDate - currentTime) / (60 * 60 * 1000) < 1) {
+        if ((Math.round((eventStartDate - currentTime) / (60 * 1000))) > 0) {
+          return 'starting in ' + Math.round((eventStartDate - currentTime) / (60 * 1000)).toString() + ' Minutes';
+        } else {
+          if ((Math.round((eventEndDate - currentTime) / (60 * 1000))) > 0) {
+            return 'Event is live';
+          } else {
+            return 'Event ended';
+          }
+        }
+      }
+    } else {
+      if (formattedStartDate === formattedEndDate || eventEndDate == null) {
+        if ((Math.round((eventEndDate - currentTime) / (60 * 1000))) < 0) {
+          return 'Event ended';
+        } else {
+          return formattedStartDate + ' | ' + eventStartTime;
+        }
+      } else {
+        return formattedStartDate + ' - ' + formattedEndDate + ' | ' + eventStartTime;
+      }
+    }
+  } else {
+    return eventStartDate;
+  }
+});
+
+Handlebars.registerHelper("checkEventDate", function (eventStartDate, dateFormat) {
+  if (moment) {
+    const startDate = new Date(eventStartDate);
+    const newStartDate = eventStartDate.valueOf() + 60000 * startDate.getTimezoneOffset();
+    const formattedStartDate = moment(newStartDate).format(dateFormat);
+    const presentDate = moment(Date.now()).format(dateFormat);
+
+    if (formattedStartDate === presentDate) {
+      return true
+    } else {
+      return false
+    }
+  }
+});
+
+Handlebars.registerHelper("isEventEnded", function (eventEndDate) {
+  if (moment) {
+    const newEndDate = eventEndDate.valueOf() + 60000 * new Date(eventEndDate).getTimezoneOffset();
+    const currentTime = new Date().getTime();
+
+    if ((Math.round((newEndDate - currentTime) / (60 * 1000))) > 0) {
+      return false
+    } else {
+      return true;
+    }
+  }
+});
+
+Handlebars.registerHelper('formatLiveTime',function(time) {
+  if(typeof time === "undefined" || time === null ) {
+    return '';
+  } else if(typeof time === 'string') {
+   const dateTime = new Date(time)
+   return moment(dateTime).format('MMMM Do YYYY, hh:mm A');
+  } else {
+    const dateTime = new Date(time)
+    return moment(dateTime).format('MMMM Do YYYY, hh:mm A');
+  }
+})
+
+
+Handlebars.registerHelper('getDuration', function (ms) {
+  function getDifferenceInDays(date1, date2) {
+    const diffInMs = Math.abs(date2 - date1);
+    return diffInMs / (1000 * 60 * 60 * 24);
+  }
+
+  function getDifferenceInMins(present, posted) {
+    var diff = (present.getTime() - posted.getTime()) / 1000;
+    diff /= 60;
+    return Math.abs(Math.round(diff));
+  }
+
+  const present = new Date();
+  const posted = new Date(ms);
+  const presentDate = (present.getMonth() + 1) + '/' + present.getDate() + '/' + present.getFullYear();
+  const postedDate = (posted.getMonth() + 1) + '/' + posted.getDate() + '/' + posted.getFullYear();
+
+  const date1 = new Date(presentDate);
+  const date2 = new Date(postedDate);
+  const dayDiff = getDifferenceInDays(date1, date2);
+
+  if (dayDiff === 0) {
+    const minsDiff = getDifferenceInMins(present, posted)
+    if (minsDiff > 60) {
+      return parseInt(minsDiff / 60) + 'h';
+    }
+    if (minsDiff === 0) {
+      return 'Just now';
+    }
+    return minsDiff + 'm';
+  } else if (dayDiff <= 7) {
+    return dayDiff + 'd'
+  } else if (dayDiff > 7 && dayDiff <= 31) {
+    return parseInt(dayDiff / 7) + 'w';
+  } else if (dayDiff > 31 && parseInt(dayDiff / 12) <= 30) {
+    return parseInt(dayDiff / 30) + 'mo';
+  } else if (dayDiff / 12 > 30) {
+    return parseInt(dayDiff / 365) + 'y';
+  }
+});
+
+
+Handlebars.registerHelper('salaryValue', function (min, max) {
+  if (min == max) return parseInt(min / 12000) + 'k';
+  return parseInt(min / 12000) + 'k - ' + parseInt(max / 12000) + 'k';
+});
+
+Handlebars.registerHelper('getRemaining', function (type, list, sliceThreshold) {
+  const itemName = type + 'Name';
+  return ((list.map(listItem => listItem[itemName])).slice(sliceThreshold, list.length)).join(', ');
+});
+
+Handlebars.registerHelper("percentage", function (a,b) {
+  return parseInt(a / b * 100);
+});
+
+Handlebars.registerHelper("getPath", function (path) {
+  const startIndex = path.indexOf('.ai/') + 3;
+  return path.slice(startIndex);
+});
+
+function truncate(str, limit, suffix) {
+  if (typeof str === 'string') {
+    if (typeof suffix !== 'string') {
+      suffix = '';
+    }
+    if (str.length > limit) {
+      return str.slice(0, limit - suffix.length) + suffix;
+    }
+    return str;
+  }
+}
+
+Handlebars.registerHelper("ellipsis", function (str, limit) {
+  if (typeof str === 'string') {
+    if (str.length <= limit) {
+      return str;
+    }
+    return truncate(str, limit) + '…';
+  }
+});
+
+Handlebars.registerHelper("subtract", function (a, b) {
+  return Number(a) - Number(b);
+});
+
+Handlebars.registerHelper("truncate", function (str, limit) {
+  if (typeof str === 'string') {
+    if (str.length <= limit) {
+      return str;
+    }
+
+    let temp = str.substring(limit).indexOf('.');
+    let temp2 = str.split('.')[0]
+    return truncate(str, limit + temp + 1);
+  }
+});
+
+Handlebars.registerHelper("minus", function (a, b) {
+  if (!validateNumber(a)) {
+    throw new TypeError('expected the first argument to be a number');
+  }
+  if (!validateNumber(b)) {
+    throw new TypeError('expected the second argument to be a number');
+  }
+  return Number(a) - Number(b);
+});
+
+Handlebars.registerHelper("length", function (value) {
+  if (typeof value === 'object') {
+    value = Object.keys(value);
+  }
+  if (typeof value === 'string' || Array.isArray(value)) {
+    return value.length;
+  }
+  return 0;
+});
+
+Handlebars.registerHelper("splitOne", function (str, ch) {
+  if (!typeof str === 'string') return '';
+  if (!typeof ch === 'string') ch = ',';
+  return str.split(ch)[0];
+});
+
+Handlebars.registerHelper("firstLetter", function (str) {
+  if (!typeof str === 'string') return '';
+  return str[0];
+});
+
+Handlebars.registerHelper("commaSepStr", function (strArr, key = '', maxIdx = 3) {
+  let str = '';
+  if (Array.isArray(strArr)) {
+    let len = strArr.length;
+    strArr.map((item, idx) => {
+      const name = (item[key] && item[key].name) || item.name;
+      if (name) {
+        if (idx < maxIdx) {
+          str += name.trim().split(' ')[0] + `${idx < len - 1 ? ', ' : ''}`
+        }
+        if (idx >= maxIdx && idx === len - 1) {
+          str += `+${len - maxIdx}`
+        }
+      }
+    })
+    return str;
+  }
+  return '';
+});
+
+Handlebars.registerHelper('commaSeparator', function(number) {
+  if (typeof number == 'number') {
+    return number.toLocaleString();
+  }
+
+});
+
+Handlebars.registerHelper("contains", function (collection, value, options) {
+  var val = collection.indexOf(value);
+  if (val > -1) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
+Handlebars.registerHelper("formatTime", function (duration) {
+  return getDisplayDuration(duration);
+});
+
+Handlebars.registerHelper("formatDuration", function (duration) {
+  return getDisplayDurationV2(duration);
+});
+
+
+Handlebars.registerHelper("formatGoalDuration", function (duration) {
+  if(duration < 60){
+    return `${duration} Mins.`;
+  }else{
+    return `${Math.floor(duration/60)} Hrs`;
+  }
+
+});
+
+Handlebars.registerHelper("formatTimeV2", function (duration) {
+  return getDisplayDuration(duration, true);
+});
+
+Handlebars.registerHelper('switch', function (value, options) {
+  this.switch_value = value;
+  this.switch_break = false;
+  return options.fn(this);
+});
+
+Handlebars.registerHelper('case', function (value, options) {
+  if (value === this.switch_value) {
+    this.switch_break = true;
+    return options.fn(this);
+  }
+});
+
+Handlebars.registerHelper('default', function (value, options) {
+  if (this.switch_break === false) {
+    return value;
+  }
+});
+
+Handlebars.registerHelper("getTimeLeft", function (time) {
+  if(typeof(time) !== "number"){
+      time = new Date(time).getTime()
+  }
+  return getTimeRemaining(time);
+});
+
+Handlebars.registerHelper("competencyImg", function (level) {
+  switch (level) {
+    case level === 'BEGINNER':
+      return 'beginner.svg';
+    case level === 'INTERMEDIATE':
+      return 'intermediate.svg';
+    case level === 'DIFFICULT':
+      return 'advanced.svg';
+  }
+});
+
+Handlebars.registerHelper("checkZero", function (value) {
+  if (value === 0) {
+    return false
+  } else {
+    return true
+  }
+});
+
+Handlebars.registerHelper("createUrl", function (slug, ekey, contentType) {
+  let link = '';
+  if (contentType === 'LIVE_SESSION') {
+    link = 'career-coaching';
+  }
+  if (contentType === 'COURSE' || contentType === 'LESSON' || contentType === 'LEARNING_PATH') {
+    link = 'courses';
+  }
+  if (contentType === 'ASSESSMENT') {
+    link = 'quizzes';
+  }
+  return '/' + link + '/' + slug + '/' + ekey;
+});
+
+Handlebars.registerHelper("removeSpaceFromUrl", function (value) {
+  let url = value.split(' ');
+  let requiredUrl = url.join('%20');
+  return requiredUrl;
+});
+
+Handlebars.registerHelper("toLowerCase", function (input) {
+  let output = input.toLowerCase();
+  return output.replace(" ", "");
+});
+
+Handlebars.registerHelper("capitalizeFistLetter", function (input) {
+  let output = input.toLowerCase();
+  return output.charAt(0).toUpperCase() + output.slice(1);
+});
+
+Handlebars.registerHelper('trim', function (string) {
+  return string.trim();
+});
+
+Handlebars.registerHelper('lookup', function(obj, key, childKey) {
+  if(childKey){
+    return obj[key][childKey];
+  }else{
+    return obj[key];
+  }
+
+});
+
+Handlebars.registerHelper('splitJoin', function (string) {
+  return string ? string.split('_').join(' ') : '';
+});
+
+Handlebars.registerHelper('trimString', function (passedString, startstring, endstring) {
+  var theString = passedString.substring(0, 150);
+  return new Handlebars.SafeString(theString)
+});
+
+Handlebars.registerHelper("inc", function (value, options) {
+  return parseInt(value) + 1;
+});
+
+Handlebars.registerHelper("round", function (number) {
+  return Math.round(number);
+});
+
+Handlebars.registerHelper('round1', function (number) {
+  return Math.round(number * 10) / 10;
+});
+
+Handlebars.registerHelper('round2', function (number) {
+  return Math.round(number * 100) / 100;
+});
+
+Handlebars.registerHelper('round3', function (number) {
+  return Math.round(number * 1000) / 1000;
+});
+
+
+Handlebars.registerHelper("timeLeft", function (seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  const paddedSeconds = remainingSeconds.toString().padStart(2, "0");
+  return `${minutes}:${paddedSeconds}`;
+});
+
+
+Handlebars.registerHelper('daysAgo', function (date) {
+  if (!date) {
+    return -1;
+  }
+  var currentDate = new Date();
+  var pastDate = new Date(date);
+  var timeDiff = Math.abs(currentDate.getTime() - pastDate.getTime());
+  var diffMinutes = Math.ceil(timeDiff / (1000 * 60));
+  var diffHours = Math.ceil(timeDiff / (1000 * 3600));
+  var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  if (diffMinutes < 60) {
+    return diffMinutes + " minutes ago";
+  } else if (diffHours < 24) {
+    return diffHours + " hours ago";
+  } else {
+    return diffDays + " days ago";
+  }
+});
+
+Handlebars.registerHelper('daysLeft', function (date) {
+  if (!date) {
+    return -1;
+  }
+  var currentDate = new Date();
+  var futureDate = new Date(date);
+  var timeDiff = Math.ceil(futureDate.getTime() - currentDate.getTime());
+  var diffMinutes = Math.ceil(timeDiff / (1000 * 60));
+  var diffHours = Math.ceil(timeDiff / (1000 * 3600));
+  var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  if (diffMinutes < 0) {
+    return 'Expired'
+  }
+  if (diffMinutes < 60) {
+    return diffMinutes + diffMinutes === 1 ? `${diffMinutes} minute left` : `${diffMinutes} minutes left`;
+  } else if (diffHours < 24) {
+    return diffHours + diffHours === 1 ? `${diffHours} hour left` : `${diffHours} hours left`;
+  } else {
+    return diffDays + diffDays === 1 ? `${diffDays} day left` : `${diffDays} days left`;
+  }
+});
+
+
+Handlebars.registerHelper('timeDifference', function (date) {
+  var currentDate = new Date();
+  var futureDate = new Date(date);
+  var timeDiff = futureDate.getTime() - currentDate.getTime();
+  var diffHours = Math.ceil(timeDiff / (1000 * 3600));
+  return diffHours
+})
+
+Handlebars.registerHelper('not', function (value) {
+  return !value;
+});
+
+Handlebars.registerHelper('keys', function (value) {
+  return Object.keys(value);
+});
+
+Handlebars.registerHelper('values', function (value) {
+  return Object.values(value);
+});
+
+Handlebars.registerHelper('removeEmptyParagraphs', function (data) {
+  return data && data.replace(/<(p|br)>\s*<\/(p|br)>/g, '');
+});
+
+
+Handlebars.registerHelper('formatKarma', function (number) {
+  if (number >= 1000) {
+    return (number / 1000).toFixed(1) + 'k';
+  }
+  return number;
+});
+
+Handlebars.registerHelper('duration', function (seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  const paddedSeconds = remainingSeconds.toString().padStart(2, "0");
+  if (minutes > 0) {
+    return `${minutes} mins. and ${paddedSeconds} sec`;
+  } else {
+    return `${remainingSeconds} seconds`;
+  }
+})
+
+Handlebars.registerHelper('getSeriesDuration', function (number) {
+  return `${Math.floor(number / 60)} Mins`;
+});
+
+Handlebars.registerHelper('replace', function (text, toReplace, replaceWith) {
+  return text.replace(toReplace, replaceWith)
+});
+
+Handlebars.registerHelper('addLineBreaks', function (text) {
+  // Replace all occurrences of "\n" with "<br>"
+  var formattedText = text.replace(/\n/g, '<br>');
+
+  // Return the formatted text as unescaped HTML
+  return new Handlebars.SafeString(formattedText);
+});
+
+function addLinksToHeaders(htmlString) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlString, "text/html");
+  const tocTree = [];
+  let currentH2 = null;
+  const headers = doc.querySelectorAll("h2, h3");
+  headers.forEach((header) => {
+    const headerText = header.textContent.trim();
+    if (headerText === "") {
+      return;
+    }
+    header.id = headerText;
+    const link = document.createElement("a");
+    link.href = "#" + headerText;
+    link.textContent = headerText;
+    header.textContent = "";
+    header.appendChild(link);
+    if (header.tagName === "H2") {
+      currentH2 = { name: headerText, element: header, children: [] };
+      tocTree.push(currentH2);
+    } else if (header.tagName === "H3") {
+      if (currentH2) {
+        const h3Obj = { name: headerText, element: header };
+        currentH2.children.push(h3Obj);
+      }
+    }
+  });
+  const tocHtml = generateTocHtml(tocTree);
+  const modifiedHtmlString = doc.documentElement.outerHTML.replace(/<p><br><\/p>/g, "").replace(/<p><span><\/p>/g, "");
+  return { modifiedHtmlString, tocHtml };
+}
+
+function generateTocHtml(tocTree) {
+  let tocHtml = "<ul class='p-2 mb-0'>";
+  tocTree.forEach((h2) => {
+    if (h2.children.length > 0) {
+      tocHtml += `<li class="toc-heading d-flex justify-content-start flex-column"><span class="d-flex"><div class="toc-expand mb-2"></div><a class="tertiary-color-text text-title3 mb-2" >${h2.name}</a></span>`;
+    } else {
+      tocHtml += `<li class="toc-heading"><a href="#${h2.name}" class="tertiary-color-text text-title3" >${h2.name}</a>`;
+    }
+
+    if (h2.children.length > 0) {
+      tocHtml += "<ul>";
+      h2.children.forEach((h3) => {
+        tocHtml += `<li class="d-none toc-subheading"><a class="tertiary-color-text text-subtitle" href="#${h3.name}">${h3.name}</a></li>`;
+      });
+      tocHtml += "</ul>";
+    }
+    tocHtml += "</li>";
+  });
+  tocHtml += "</ul>";
+  return tocHtml;
+}
+
+Handlebars.registerHelper("addTocToContent", function (htmlString) {
+  const { modifiedHtmlString, tocHtml } = addLinksToHeaders(htmlString);
+  return new Handlebars.SafeString(
+          `
+    <div class="footer-content-template border-radius-2 mt-5">
+      <div class="toc"><h4 class="text-smallcta tertiary-color-300-text mx-2 my-2">TABLE OF CONTENT</h4>${tocHtml}</div>
+      <div class="parsed-content">${modifiedHtmlString}
+      </div>
+      <p class="text-title3 secondary-color-text ml-auto mr-auto cursor-pointer" id="footer-read-more">Read More..</p>
+    </div>
+  `
+  );
+});
+
+Handlebars.registerHelper('ternaryOperator', function(variable, value, trueValue = "", falseValue = "") {
+  if (variable == value) {
+    return trueValue;
+  } else {
+    return falseValue;
+  }
+});
+
+Handlebars.registerHelper('roundOff', function(value) {
+  return isNaN(Number(value)) ? 0 : Number(value).toFixed(1);
+})
+
+Handlebars.registerHelper('divide', function(value1,value2) {
+  return (Number(value1)/Number(value2)).toFixed(1);
+})
+
+$(document.body).on('click', '#footer-read-more', async function () {
+  if($(this).siblings('.parsed-content').hasClass('active')) {
+    $(this).siblings('.parsed-content').css('height', '400px').removeClass('active')
+    $(this).text('Read More..')
+  } else {
+    ($(this).siblings('.parsed-content').css('height', '100%').addClass('active'))
+    $(this).text('Read Less..')
+  }
+})
+
+Handlebars.registerHelper('readMore', function(text, limit) {
+  if (text.length <= limit) {
+    return text;
+  } else {
+    var truncatedText = text.substring(0, limit) + '...';
+    var html = '<span class="truncated">' + truncatedText + '</span>';
+    html += '<button class="read-more-btn">Read More</button>';
+    html += '<span class="full-text hidden">' + text + '</span>';
+    html += '<button class="read-less-btn hidden">Read Less</button>';
+    return new Handlebars.SafeString(html);
+  }
+});
+
+
+Handlebars.registerHelper('convertUrl', function(url) {
+  const searchUrl = 'https://seekify-public.s3.ap-south-1.amazonaws.com';
+  const replaceUrl = 'https://dntsgn6vvw8wj.cloudfront.net';
+
+  if (url.startsWith(searchUrl)) {
+    return url.replace(searchUrl, replaceUrl);
+  }
+
+  return url;
+});
+
+
+// Add event listeners for the buttons
+document.addEventListener('click', function(event) {
+  if (event.target.classList.contains('read-more-btn')) {
+    var btn = event.target;
+    var parent = btn.parentNode;
+    var truncatedText = parent.querySelector('.truncated');
+    var fullText = parent.querySelector('.full-text');
+    var readLessBtn = parent.querySelector('.read-less-btn');
+
+    truncatedText.classList.add('hidden');
+    fullText.classList.remove('hidden');
+    btn.classList.add('hidden');
+    readLessBtn.classList.remove('hidden');
+  } else if (event.target.classList.contains('read-less-btn')) {
+    var btn = event.target;
+    var parent = btn.parentNode;
+    var truncatedText = parent.querySelector('.truncated');
+    var fullText = parent.querySelector('.full-text');
+    var readMoreBtn = parent.querySelector('.read-more-btn');
+
+    truncatedText.classList.remove('hidden');
+    fullText.classList.add('hidden');
+    btn.classList.add('hidden');
+    readMoreBtn.classList.remove('hidden');
+  }
+});
+
+function getDisplayDuration(duration, ignoreZero = false) {
+  if (duration === null) return '';
+
+  if (ignoreZero && duration === 0) return '';
+
+  if (duration < 1) return duration;
+
+  const minutesInDay = 1440;
+  const minutesInMonth = 43200;
+  const minutesInYear = 525600;
+
+  let years = Math.floor(duration / minutesInYear);
+  let months = Math.floor((duration % minutesInYear) / minutesInMonth);
+  let days = Math.floor(((duration % minutesInYear) % minutesInMonth) / minutesInDay);
+  let hours = Math.floor(((duration % minutesInYear) % minutesInMonth) % minutesInDay / 60);
+  let minutes = Math.floor(duration % 60);
+
+  let displayString = '';
+  if (years > 0) displayString += `${years} ${years === 1 ? 'Year' : 'Years'}`;
+  if (months > 0) displayString += ` ${months} ${months === 1 ? 'Month' : 'Months'}`;
+  if (days > 0) displayString += ` ${days} ${days === 1 ? 'Day' : 'Days'}`;
+  if (hours > 0) displayString += ` ${hours} ${hours === 1 ? 'Hr' : 'Hrs'}`;
+  if (minutes > 0) displayString += ` ${minutes} ${minutes === 1 ? 'min.' : 'mins.'}`;
+
+  return displayString.trim();
+}
+
+
+function getDisplayDurationV2(duration) {
+  if (duration === null) return '';
+
+  if (duration < 1) return duration;
+
+  const minutesInHour = 60;
+
+  let hours = Math.floor(duration / minutesInHour);
+  let minutes = Math.floor(duration % minutesInHour);
+
+  let displayString = '';
+  if (hours > 0) displayString += `${hours} ${hours === 1 ? 'hr' : 'hrs'}`;
+  if (minutes > 0) displayString += ` ${minutes} ${minutes === 1 ? 'min' : 'mins'}`;
+
+  return displayString.trim();
+}
+
+
+
+const HandlebarHelper = {
+  compileHandlebarTemplate: (templateId) => {
+    const htmlRef = $(templateId);
+    if(htmlRef.length === 0) return ;
+    const htmlTemplate = htmlRef.html();
+    return Handlebars.compile(htmlTemplate);
+  },
+  addHBDataToDOM: (target, compiledTemplate, templateDataObject, action) => {
+    const htmlTarget = $(target);
+    const finalTemplate = compiledTemplate(templateDataObject);
+    htmlTarget[action](finalTemplate)
+  },
+  appendHBDataToDOM: (element, templateDataObject) => {
+    let {target, template : compiledTemplate} = element;
+    const htmlTarget = $(target);
+    const finalTemplate = compiledTemplate(templateDataObject);
+    htmlTarget.append(finalTemplate)
+  }
+}
+
+const HandlebarTemplates = {
+  recommendedCardHB : HandlebarHelper.compileHandlebarTemplate("#recommendedCardHB"),
+  userContentCardHB : HandlebarHelper.compileHandlebarTemplate("#userContentCardHB"),
+  genericContentCardHB : HandlebarHelper.compileHandlebarTemplate("#genericContentCardHB"),
+  ratingCardHB : HandlebarHelper.compileHandlebarTemplate("#ratingCardHB"),
+  projectActionButtonHB : HandlebarHelper.compileHandlebarTemplate("#projectActionButtonHB"),
+  peopleCardHB : HandlebarHelper.compileHandlebarTemplate("#peopleCardHB"),
+}

@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)https://www.seekho.ai/chrome-app -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>Interview Prep</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="./bootstrap.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+  <link href="./css2" rel="stylesheet">
+  <link rel="stylesheet" as="style" onload="this.rel = &#39;stylesheet&#39;" href="./css2(1)">
+  <link rel="stylesheet" as="style" onload="this.rel = &#39;stylesheet&#39;" href="./css2(2)">
+  <link rel="stylesheet" href="./swiper-bundle.min.css">
+  <link rel="stylesheet" type="text/css" href="./swiper.css">
+  <link href="./library.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="./jobCard.css">
+  <link rel="stylesheet" href="./_share.css">
+  <link href="./popup.css" rel="stylesheet" type="text/css">
+  <link href="./circular-progress.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="./quizQuestion.css">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+  <script async="" src="./saved_resource"></script><script src="./298983945548420" async=""></script><script src="./549662456197936" async=""></script><script type="text/javascript" async="" src="./fbevents.js.download"></script><script type="text/javascript" async="" src="./analytics.js.download"></script><script async="" src="./fbevents.js.download"></script><script type="text/javascript" async="" src="./js"></script><script type="text/javascript" async="" src="./analytics.js.download"></script><script type="text/javascript" async="" src="./js(1)"></script><script async="" src="./gtm.js.download"></script><script async="" src="./js(2)"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'UA-175031722-1');
+  </script>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-T5W8ZBP');</script>
+  <!-- End Google Tag Manager -->
+
+
+
+
+  <script type="text/javascript">
+		const lmsDomain = 'https://seekho.seekify.com';
+		let token = null;
+
+		function getCookie(cname) {
+			var name = cname + "=";
+			var decodedCookie = decodeURIComponent(document.cookie);
+			var ca = decodedCookie.split(';');
+			for (var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ') {
+					c = c.substring(1);
+				}
+				if (c.indexOf(name) == 0) {
+					return c.substring(name.length, c.length);
+				}
+			}
+			return "";
+		}
+
+		function getPlatform() {
+			let platform = "25"; // DESKTOP_WEB
+			var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+			if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+				platform = "20"; // WEB (Mobile Web)
+			} else if (/android/i.test(userAgent)) {
+				platform = "20"; // WEB (Mobile Web)
+			}
+			return platform;
+		}
+  </script>
+  <script src="./jquery.min.js.download"></script>
+  <script src="./utmParams.js.download"></script>
+  <script src="./seekhoRequest.js.download"></script>
+  <script src="./seekho.js.download"></script>
+  <script src="./handlebars.min.js.download"></script>
+  <script src="./handleBar.js.download"></script>
+  <script type="text/javascript" src="./share.js.download"></script>
+  <script src="./_share.js.download"></script>
+  <script async="" src="./swiper-bundle.min.js.download"></script>
+  <script src="./popper.min.js.download"></script>
+  <script src="./bootstrap.bundle.min.js.download"></script>
+<style type="text/css">.lf-progress {
+  -webkit-appearance: none;
+  -moz-apperance: none;
+  width: 100%;
+  /* margin: 0 10px; */
+  height: 4px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.lf-progress:focus {
+  outline: none;
+  border: none;
+}
+.lf-progress::-moz-range-track {
+  cursor: pointer;
+  background: none;
+  border: none;
+  outline: none;
+}
+.lf-progress::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  height: 13px;
+  width: 13px;
+  border: 0;
+  border-radius: 50%;
+  background: #0fccce;
+  cursor: pointer;
+}
+.lf-progress::-moz-range-thumb {
+  -moz-appearance: none !important;
+  height: 13px;
+  width: 13px;
+  border: 0;
+  border-radius: 50%;
+  background: #0fccce;
+  cursor: pointer;
+}
+.lf-progress::-ms-track {
+  width: 100%;
+  height: 3px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+.lf-progress::-ms-fill-lower {
+  background: #ccc;
+  border-radius: 3px;
+}
+.lf-progress::-ms-fill-upper {
+  background: #ccc;
+  border-radius: 3px;
+}
+.lf-progress::-ms-thumb {
+  border: 0;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  background: #0fccce;
+  cursor: pointer;
+}
+.lf-progress:focus::-ms-fill-lower {
+  background: #ccc;
+}
+.lf-progress:focus::-ms-fill-upper {
+  background: #ccc;
+}
+.lf-player-container :focus {
+  outline: 0;
+}
+.lf-popover {
+  position: relative;
+}
+
+.lf-popover-content {
+  display: inline-block;
+  position: absolute;
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0, -10px);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  transition: all 0.3s cubic-bezier(0.75, -0.02, 0.2, 0.97);
+}
+
+.lf-popover-content.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(0, 0px);
+}
+
+.lf-player-btn-container {
+  display: flex;
+  align-items: center;
+}
+.lf-player-btn {
+  cursor: pointer;
+  fill: #999;
+  width: 14px;
+}
+
+.lf-player-btn.active {
+  fill: #555;
+}
+
+.lf-popover {
+  position: relative;
+}
+
+.lf-popover-content {
+  display: inline-block;
+  position: absolute;
+  background-color: #ffffff;
+  opacity: 1;
+
+  transform: translate(0, -10px);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  transition: all 0.3s cubic-bezier(0.75, -0.02, 0.2, 0.97);
+  padding: 10px;
+}
+
+.lf-popover-content.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(0, 0px);
+}
+
+.lf-arrow {
+  position: absolute;
+  z-index: -1;
+  content: '';
+  bottom: -9px;
+  border-style: solid;
+  border-width: 10px 10px 0px 10px;
+}
+
+.lf-left-align,
+.lf-left-align .lfarrow {
+  left: 0;
+  right: unset;
+}
+
+.lf-right-align,
+.lf-right-align .lf-arrow {
+  right: 0;
+  left: unset;
+}
+
+.lf-text-input {
+  border: 1px #ccc solid;
+  border-radius: 5px;
+  padding: 3px;
+  width: 60px;
+  margin: 0;
+}
+
+.lf-color-picker {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 90px;
+}
+
+.lf-color-selectors {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.lf-color-component {
+  display: flex;
+  flex-direction: row;
+  font-size: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+.lf-color-component strong {
+  width: 40px;
+}
+
+.lf-color-component input[type='range'] {
+  margin: 0 0 0 10px;
+}
+
+.lf-color-component input[type='number'] {
+  width: 50px;
+  margin: 0 0 0 10px;
+}
+
+.lf-color-preview {
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 5px;
+}
+
+.lf-preview {
+  height: 60px;
+  width: 60px;
+}
+
+.lf-popover-snapshot {
+  width: 150px;
+}
+.lf-popover-snapshot h5 {
+  margin: 5px 0 10px 0;
+  font-size: 0.75rem;
+}
+.lf-popover-snapshot a {
+  display: block;
+  text-decoration: none;
+}
+.lf-popover-snapshot a:before {
+  content: '⥼';
+  margin-right: 5px;
+}
+.lf-popover-snapshot .lf-note {
+  display: block;
+  margin-top: 10px;
+  color: #999;
+}
+.lf-player-controls > div {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+.lf-player-controls > div:first-child {
+  margin-left: 0px;
+}
+.lf-player-controls > div:last-child {
+  margin-right: 0px;
+}
+</style><style id="_goober"> @keyframes go2264125279{from{transform:scale(0) rotate(45deg);opacity:0;}to{transform:scale(1) rotate(45deg);opacity:1;}}@keyframes go3020080000{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}@keyframes go463499852{from{transform:scale(0) rotate(90deg);opacity:0;}to{transform:scale(1) rotate(90deg);opacity:1;}}@keyframes go1268368563{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}@keyframes go1310225428{from{transform:scale(0) rotate(45deg);opacity:0;}to{transform:scale(1) rotate(45deg);opacity:1;}}@keyframes go651618207{0%{height:0;width:0;opacity:0;}40%{height:0;width:6px;opacity:1;}100%{opacity:1;height:10px;}}@keyframes go901347462{from{transform:scale(0.6);opacity:0.4;}to{transform:scale(1);opacity:1;}}.go4109123758{z-index:9999;}.go4109123758 > *{pointer-events:auto;}</style></head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T5W8ZBP"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div id="seekho-plugin">
+  <div class="container">
+    <div class="bookmarks" id="bookmarks" style="width: 100%"></div>
+  </div>
+  <div class="container">
+    <div id="chatContainer" style="display: none; width: 100%">
+      <!--Include all the dependencies wherever this fragment is used-->
+<!--Dependencies:-->
+<!--<link rel="stylesheet" href="/assets/css/fragments/_share.css">-->
+
+<div class="modal" id="shareModal">
+  <div class="modal-dialog">
+    <div class="modal-content share_modal">
+      <!-- Modal body -->
+      <div class="modal-body p-0">
+        <button type="button" class="close position-relative" data-dismiss="modal" id="shareModalClose" style="outline: none;font-size:30px;font-weight:normal;bottom:10px;left:10px;">×</button>
+        <h5 id="shareVideo" class="center" style="font-family: Helvetica Neue;font-weight: bold;font-size: 20px;">Share this Seekho Interview Pro</h5>
+        <div class="d-flex flex-column align-items-center share-content">
+          <textarea id="share_message" readonly="" style="outline: none" class="share_message"></textarea>
+          <div class="d-flex text-center" style="justify-content: space-around;margin-top:24px;">
+            <a id="whatsapp" href="https://www.seekho.ai/chrome-app#" target="_blank">
+              <button class="share-on-button" style="outline: none">
+                <img loading="lazy" src="./whatsapp-logo.png" alt="whatsapp" width="44px">
+              </button>
+            </a>
+            <a id="facebook" href="https://www.seekho.ai/chrome-app#" target="_blank">
+              <button class="share-on-button" style="outline: none">
+                <img src="./facebook-logo.png" alt="facebook" width="44px">
+              </button>
+            </a>
+            <a id="linkedin" href="https://www.seekho.ai/chrome-app#" target="_blank">
+              <button class="share-on-button" style="outline: none">
+                <img src="./linkedin-logo.png" alt="linkedin" width="44px">
+              </button>
+            </a>
+            <a id="twitter" href="https://www.seekho.ai/chrome-app#" target="_blank">
+              <button class="share-on-button" style="outline: none">
+                <img src="./twitter-logo.png" alt="twitter" width="44px">
+              </button>
+            </a>
+            <span id="copy-button">
+              <button class="share-on-button" style="outline: none">
+                <img src="./clipboard.png" alt="copy" width="44px">
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<script src="/assets/js/fragments/_share.js"></script>-->
+
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-12 px-0">
+          <div class="card" id="chat1" style="border-radius: 15px; height: 100vh;">
+            <div class="card-header text-title2" style="overflow: visible; flex-direction: row; display: flex; align-items: center;" id="chatHeader"></div>
+            <div class="card-body" style="flex: 1 1 0%; overflow: auto;" id="chatBox">
+              <div class="loader" id="loader"></div>
+            </div>
+            <div id="card-footer" style="flex-direction: column; display: flex; justify-content: center; background: #ECF1F4; position: relative">
+              <div class="card-footer py-4" style="background-color: transparent; border-top: 0">
+                <div class="form-outline">
+                  <div class="chat-textarea-wrapper mb-3">
+                  <textarea class="form-control chat-textarea mb-0" id="answer" rows="1"></textarea>
+                  </div>
+                  <div class="form-outline d-flex" style="justify-content: space-between; align-items: center">
+                    <div>
+                      <span id="char-count" style="font-size: 12px;color: #c4c4c4;">0/150</span>
+                      <span style="font-size: 12px;">(min 10 words)</span>
+                    </div>
+                    <div class="d-flex" style="column-gap: 15px; align-items: center">
+                      <button style="float: left; flex: 1; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15); border: 2px solid #ECF1F4;" class="btn btn-secondary-hollow btn-sm" id="finishInterview">Finish</button>
+                      <button style="float: right;padding: 0px;width: 37px;height: 37px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15);" class="btn btn-primary btn-sm rounded" id="submitAnswer">
+                        <img src="./1688655011606-send.png" style="width: 20px; height: 20px;">
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="position: absolute; flex-wrap: wrap; height: 100%; width: 100%; background: white; align-items: center; justify-content: center; display: block" id="close-conversation">
+                <div>
+                  This conversation is closed!
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="questionsCardHB" type="text/x-handlebars-template">
+  <div id="questionCard" class="w-100 card border-0 background-tertiary-200 py-2 my-2">
+    <div class="questions-container">
+      <h5 class="text-body tertiary-color-text text-body questions-displayText">{{{question.displayText}}}</h5>
+<!--      {{#if question.hint}}-->
+<!--        <p class="primary-color-text text-title3 show-hint" style="cursor: pointer">Looking for a hint ?</p>-->
+<!--        <p class="secondary-color-text text-smallcta question-hint my-2" style="display: none">{{question.hint}}</p>-->
+<!--      {{/if}}-->
+      {{#ifCond question.competencyLevel '==' "ADVANCED"}}
+        <span class=" px-2 py-1 my-1 text-smallcta primary-color-text background-primary-50 border-radius-2">
+          {{question.competencyLevel}}
+        </span>
+      {{/ifCond}}
+      {{#ifCond question.competencyLevel '==' "INTERMEDIATE"}}
+      <span class=" px-2 py-1 my-1 text-smallcta primary-color-text background-primary-50 border-radius-2">
+          {{question.competencyLevel}}
+        </span>
+      {{/ifCond}}
+      {{#ifCond question.competencyLevel '==' "BEGINNER"}}
+      <span class=" px-2 py-1 my-1 text-smallcta primary-color-text background-primary-50 border-radius-2">
+          {{question.competencyLevel}}
+        </span>
+      {{/ifCond}}
+    </div>
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        {{#each question.questionOptions as |option|}}
+          {{#ifCond ../question.questionType '==' 'SINGLE_SELECT_MCQ' }}
+              <li class="disable-btn list-group-item border-0 border-option p-2 mb-3 d-flex align-items-baseline text-shortcopy option-content">
+                <label class="saveAnswerButton w-100 mb-0 tertiary-color-text" for="{{option.hash}}">
+                  <input name="right-answer" id="{{option.hash}}" class="question-option mr-2" data-optionhash="{{option.hash}}" type="radio" {{#if option.isSelected}} checked {{/if}} />
+                  {{#if option.displayText}}
+                    {{option.displayText}}
+                  {{else}}
+                    <img class="option-image" src="{{option.displayImageDTO.imgUrl}}" alt="option" style="max-height: 180px"/>
+                  {{/if}}
+                </label>
+              </li>
+          {{/ifCond}}
+          {{#ifCond ../question.questionType '==' 'SINGLE_SELECT_PERSONALITY' }}
+            <li class="disable-btn list-group-item border-0 border-option p-2 mb-3 d-flex align-items-baseline text-shortcopy option-content">
+              <label class="saveAnswerButton w-100 mb-0 tertiary-color-text" for="{{option.hash}}">
+                <input name="right-answer" id="{{option.hash}}" class="question-option mr-2" data-optionhash="{{option.hash}}" type="radio" {{#if option.isSelected}} checked {{/if}} />
+                  {{option.displayText}}
+              </label>
+            </li>
+          {{/ifCond}}
+          {{#ifCond ../question.questionType '==' 'MULTI_SELECT_MCQ' }}
+            <li class="disable-btn list-group-item border-0 border-option p-2 mb-3 d-flex align-items-baseline text-shortcopy option-content">
+              <label class="saveAnswerButton w-100 mb-0 tertiary-color-text" for="{{option.hash}}">
+                <input name="right-answer-{{@index}}" id="{{option.hash}}" class="question-option mr-2" data-optionhash="{{option.hash}}" type="checkbox" {{#if option.isSelected}} checked {{/if}} />
+                {{#if option.displayText}}
+                  {{option.displayText}}
+                {{else}}
+                <img class="option-image" src="{{option.displayImageDTO.imgUrl}}" alt="option" style="max-height: 180px"/>
+                {{/if}}
+              </label>
+            </li>
+          {{/ifCond}}
+        {{#ifCond ../question.questionType '==' 'SUBJECTIVE' }}
+        <li class="disable-btn list-group-item border-0 border-option p-2 mb-3 d-flex align-items-baseline text-shortcopy option-content">
+            <textarea class="saveAnswerButton subjectiveAnswer form-control subjective-answer" id="{{option.hash}}" data-optionhash="{{option.hash}}" placeholder="Type in your answer" rows="5">{{../comment}}</textarea>
+        </li>
+        {{/ifCond}}
+      {{/each}}
+      </ul>
+    </div>
+    <div class="card-footer border-0 bg-white text-right" id="quiz-action">
+       <button id="next-button" class="btn btn-primary disable-btn">Next</button>
+    </div>
+  </div>
+</script>
+<style>
+    .content-navigation {
+        height: 100px;
+    }
+</style>
+<script id="recommendedCardHB" type="text/x-handlebars-template">
+  {{#ifCond data.contentExist '==' true}}
+  <div class="d-flex justify-content-between align-items-center">
+    {{#ifCond showTitle '==' true}}
+    {{#if title}}
+    <div class="d-flex flex-column">
+      <h2 class=" text-title2 tertiary-color-text {{#if subtitle}} mb-2 {{else}} mb-0 {{/if}}">{{title}}</h2>
+      <h3 class="text-shortcopy tertiary-color-text mb-0">{{subtitle}}</h3>
+    </div>
+    {{else}}
+    <h2 class="text-title2 tertiary-color-text">Recommended {{data.contentType}}s for you</h2>
+    {{/if}}
+    {{/ifCond}}
+    {{#ifCond viewMoreCTA '==' true}}
+    <a href="{{viewMoreUrl}}" style="min-width: 60px" class="text-title3 secondary-color-text">View More</a>
+    {{/ifCond}}
+  </div>
+  <div class="swiper my-{{data.contentType}} {{additionalClass}} mt-sm px-1">
+    <div class="swiper-wrapper">
+      {{#each data.contentData as |contentItems index|}}
+
+      <div class="swiper-slide {{../data.contentType}}-card  flex-column my-2 {{#if ../numberedCard}}position-relative pl-5 ml-3{{else}}recommended-card{{/if}}" style="border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.09);">
+        {{#if ../numberedCard}}
+        <h4 class="tertiary-color-300-text text-large mb-0" style="font-size: 140px;position: absolute;bottom: -40px;left: -16px">{{increment index 1}}</h4>
+        {{/if}}
+        {{#ifCond contentItems.certTemplateResponse '!=' null}}
+        <div class="d-flex align-items-center position-absolute text-subtitle text-color-secondary"
+             style="z-index:5;width: fit-content; gap: 4px ;background-color: var(--secondary-color-100) ;right: 0; top: 10px; padding: 8px 16px; border-radius: 16px 0 0 16px; box-shadow: 0px 1px 6px rgb(0 0 0 / 8%);">
+          <span><img src="/assets/images/medal.png" style="height: 14px; width: 14px"></span>
+          <span class="f-s-11 f-w-600">CERTIFICATE</span>
+        </div>
+        {{/ifCond}}
+        <a class="" style="position: relative" href="{{contentItems.seekhoShareUrl}}" {{#if ../external}}target="_blank"{{/if}}>
+          {{#if contentItems.coverImageUrl}}
+          <img class="mx-auto cover-image" src="{{contentItems.coverImageUrl}}" title="{{contentItems.name}}"
+               style="width: 100%;border-radius: 8px 8px 0 0"/>
+          {{else}}
+          <img class="mx-auto cover-image"
+               src="https://seekify-ets-transcoded.s3.ap-south-1.amazonaws.com/seekify_default_image_3.jpg"
+               title="{{contentItems.name}}"
+               style="width: 100%;border-radius: 8px 8px 0 0"/>
+          {{/if}}
+        </a>
+
+        {{#ifCond ../hideName '!=' true}}
+        <a href="{{contentItems.seekhoShareUrl}}"
+           class="{{../data.contentType}}-info text-align-left p-3 w-100 h-100 d-flex flex-column justify-content-between background-white"
+           style="border-radius: 0 0 8px 8px">
+          <p class="text-title3 tertiary-color-text content-name mb-0" style="min-height: 48px">
+            {{contentItems.name}}</p>
+          <div class="d-flex justify-content-start align-items-center mt-auto">
+            {{#if contentItems.duration}}
+            <img src="https://seekify-public.s3.ap-south-1.amazonaws.com/resources/1664012293444-Group%208311.png"
+                 style="width: 10px;margin: 4px;" alt="duration"/>
+            {{#ifCond contentItems.duration '==' 0 }}
+            <p class="text-subtitle tertiary-color-text mb-0 py-1 px-0">Unavailable</p>
+            {{else}}
+            {{#ifCond ../data.contentType '!=' 'series'}}
+            <p class="text-subtitle tertiary-color-text mb-0 py-1 px-0">{{formatTime contentItems.duration}}</p>
+            {{else}}
+            <p class="text-subtitle tertiary-color-text mb-0 py-1 px-0">{{getSeriesDuration contentItems.duration}}</p>
+            {{/ifCond}}
+            {{/ifCond}}
+            {{/if}}
+
+            {{#ifCond ../contentPill '==' 'price'}}
+            {{#ifCond contentItems.offerCost '==' 0}}
+            <p class="text-smallcta primary-color-text background-primary-100 mb-0 p-1 ml-auto px-2 dashboard-recommended-content"
+               style="border-radius: 16px">FREE</p>
+            {{else}}
+            <p class="text-smallcta primary-color-text background-primary-100 mb-0 p-1 ml-auto px-2 dashboard-recommended-content"
+               style="border-radius: 16px">₹{{contentItems.offerCost}}</p>
+            {{/ifCond}}
+            {{else}}
+            {{#if ../contentPill}}
+            <p class="text-smallcta primary-color-text background-primary-100 mb-0 p-1 ml-auto px-2 dashboard-recommended-content"
+               style="border-radius: 16px">{{contentItems.contentType}}</p>
+            {{else}}
+            <p class="text-smallcta primary-color-text background-primary-100 mb-0 p-1 ml-auto px-2 dashboard-recommended-content"
+               style="border-radius: 16px">RECOMMENDED</p>
+            {{/if}}
+            {{/ifCond}}
+
+          </div>
+        </a>
+        {{/ifCond}}
+      </div>
+      {{/each}}
+      {{#ifCond viewMoreCard '==' true}}
+      {{#ifCond data.contentData.length '>' '3'}}
+      <div class="swiper-slide static-card {{data.contentType}}-card flex-column content-card position-relative"
+           style="margin: 16px;max-width: 350px;">
+        <img class="mx-auto cover-image"
+             src="https://seekify-public.s3.ap-south-1.amazonaws.com/seekify-file-image%252Fwebp-1672293083026-Get%20Your%20Six%20Sigma%20White%20Belt%21.webp"
+             style="width: 100%;border-radius: 8px 8px 0 0;box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.09);filter: blur(8px);-webkit-filter: blur(8px);">
+        {{#ifCond hideName '!=' true}}
+        <div class="courses-info text-align-left p-3 w-100 d-flex flex-column justify-content-between background-white"
+             style="border-radius: 0 0 8px 8px;filter: blur(8px);-webkit-filter: blur(8px);">
+          <p class="text-title3 tertiary-color-text mb-2 content-name">Get Your Six Sigma White Belt! [HINDI]</p>
+          <div class="d-flex justify-content-start align-items-center mt-auto">
+            <img src="https://seekify-public.s3.ap-south-1.amazonaws.com/resources/1664012293444-Group%208311.png"
+                 style="width: 10px;margin: 4px;" alt="duration">
+            <p class="text-subtitle tertiary-color-text mb-0 py-1 px-0">13 Hrs</p>
+            <p class="text-smallcta secondary-color-text background-secondary-100 mb-0 p-1 ml-auto px-2"
+               style="border-radius: 16px">FINISHED</p>
+          </div>
+        </div>
+        {{/ifCond}}
+        <a href="{{viewMoreUrl}}" class="secondary-color-text text-title2"
+           style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);">View More</a>
+      </div>
+      {{/ifCond}}
+      {{/ifCond}}
+    </div>
+  </div>
+  <div class="{{data.contentType}}-navigation content-navigation">
+    <div class="my-{{data.contentType}}-nav {{additionalClass}}-nav content-swiper-nav swiper-button-next"></div>
+    <div class="my-{{data.contentType}}-nav {{additionalClass}}-nav content-swiper-nav swiper-button-prev"></div>
+  </div>
+  {{/ifCond}}
+</script>
+<script id="jobCardHBV3" type="text/x-handlebars-template">
+  {{#each jobs as |job|}}
+  <div class="col-12 col-md-4 p-0">
+    <a rel="canonical" href=/jobs/{{job.slug}}/{{job.ekey}} style="text-decoration: none" class="job-card-click">
+      <div class="job-card-container">
+        <div class="job-basic-detail-div">
+          <div class="org-detail-div">
+            <div>
+              {{#ifCond job.organisationDTO '!=' null}}
+              {{#ifCond job.organisationDTO.logoUrl '!=' null}}
+              <img class="org-logo" src={{job.organisationDTO.logoUrl}} />
+              {{/ifCond}}
+              {{#ifCond job.organisationDTO.logoUrl '==' null}}
+              <img class="org-logo" src=https://ui-avatars.com/api/?name={{firstLetter
+                   job.organisationDTO.name}}&background=8031A7&color=fff />
+              {{/ifCond}}
+              {{/ifCond}}
+            </div>
+            <div>
+              {{#ifCond job.organisationDTO.name '!=' null}}
+              <div class="org-name">
+                {{job.organisationDTO.name}}
+              </div>
+              {{/ifCond}}
+              <div class="job-title">
+                {{ellipsis job.title 35}}
+              </div>
+              {{#ifCond job.jobSkills '!=' null}}
+              <div class="job-skills-container p-0 ml-0">
+                {{#each job.jobSkills as |skill|}}
+                {{#ifCond @index '<' 2}}
+                <div class="job-skill-pill background-tertiary-200 ml-0 ">
+                  <p class="job-skills-text mb-0">{{skill.skillName}}</p>
+                  {{#ifCond skill.competencyLevel '==' "BEGINNER"}}
+                  <img src="https://seekify-public.s3.ap-south-1.amazonaws.com/resources/1666249268559-Group%208332.png" style="height: 12px"/>
+                  {{/ifCond}}
+                  {{#ifCond skill.competencyLevel '==' "INTERMEDIATE"}}
+                  <img src="https://seekify-public.s3.ap-south-1.amazonaws.com/resources/1666249261054-Group%208331.png" style="height: 12px"/>
+                  {{/ifCond}}
+                  {{#ifCond skill.competencyLevel '==' "ADVANCED"}}
+                  <img src="https://seekify-public.s3.ap-south-1.amazonaws.com/resources/1666249276225-Group%208333.png" style="height: 12px"/>
+                  {{/ifCond}}
+                </div>
+                {{/ifCond}}
+                {{/each}}
+                {{#ifCond job.jobSkills.length '>' 2}}
+                <p class="job-skills-text mb-0">+{{minus job.jobSkills.length 2}}</p>
+                {{/ifCond}}
+              </div>
+              {{/ifCond}}
+              {{#ifCond job.typeResponse.name '!=' null}}
+              <div class="job-type-pills my-2">
+                {{job.typeResponse.name}}
+              </div>
+              {{/ifCond}}
+            </div>
+
+          </div>
+          <!-- <div class="job-description">
+             {{{ellipsis job.description 100}}}
+           </div>-->
+        </div>
+        <div class="job-extra-detail-div">
+          <div class="job-salary-location-div">
+            {{#ifCond job.salaryMin '>' 0}}
+            {{#ifCond job.salaryMax '>' 0}}
+            <div>
+              <span><span class="mr-1">₹</span>{{salaryValue job.salaryMin job.salaryMax}}</span>
+            </div>
+            {{/ifCond}}
+            {{/ifCond}}
+            <div>
+              {{#each job.cityResponse as |city|}}
+              {{#ifCond @index '<' 1}}
+              <span>{{city.cityName}}</span>
+              {{/ifCond}}
+              {{/each}}
+              {{#ifCond job.cityResponse.length '>' 1}}
+              <span><span>+{{minus job.cityResponse.length 1}}</span></span>
+              {{/ifCond}}
+            </div>
+            <div>
+              <span>{{getTimeLeft job.deadlineDate}}</span>
+            </div>
+          </div>
+          <div class="job-card-footer-div">
+            <div>
+              {{#ifCond job.remotePolicy '==' 'REMOTE_ONLY'}}
+              <span class="d-flex mr-2 mr-md-3">
+                        <span class="material-icons mr-1 my-auto curated-txt" style="color: var(--secondary-color)">
+                          fiber_manual_record
+                        </span>
+                        <span class="curated-txt" style="font-weight: 600; color: var(--secondary-color)">
+                            Remote
+                        </span>
+                  </span>
+              {{/ifCond}}
+              {{#ifCond job.remotePolicy '==' 'ONSITE_REMOTE'}}
+              <span class="d-flex mr-2">
+                        <span class="material-icons mr-1 my-auto curated-txt" style="color: var(--secondary-color)">
+                          fiber_manual_record
+                        </span>
+                        <span class="curated-txt" style="font-weight: 600; color: var(--secondary-color)">
+                            Remote
+                        </span>
+                  </span>
+              {{/ifCond}}
+              {{#ifCond job.remotePolicy '!=' 'REMOTE_ONLY'}}
+              {{#ifCond job.remotePolicy '!=' 'ONSITE_REMOTE'}}
+              {{#ifCond job.wfhPolicy '==' 'WFH_ALLOWED'}}
+              <span class="d-flex mr-2">
+                        <span class="material-icons mr-1 my-auto curated-txt" style="color: var(--secondary-color)">
+                          fiber_manual_record
+                        </span>
+                        <span class="curated-txt" style="font-weight: 600; color: var(--secondary-color)">
+                            WFH Allowed
+                        </span>
+                  </span>
+              {{/ifCond}}
+              {{/ifCond}}
+              {{/ifCond}}
+            </div>
+            <div class="job-action-btn-div">
+              <!--<div class="save-btn">Save</div>-->
+              {{#ifCond job.jobProviderDTO.name '!=' 'Internal'}}
+              <div class="text-center">
+                <img class="job-provider-logo"
+                     src={{job.jobProviderDTO.logoUrl}}>
+              </div>
+              {{/ifCond}}
+              {{#ifCond ../external '==' 'YES'}}
+              <a href="{{job.externalUrl}}" class="btn-primary text-smallcta" target="_blank">VIEW</a>
+              {{else}}
+              <button class="btn-primary text-smallcta">VIEW</button>
+              {{/ifCond}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+  {{/each}}
+</script>
+
+<script src="./assessment.js.download"></script>
+<script src="./assignments.js.download"></script>
+<script type="module" src="./popup.js.download"></script>
+<script>
+  $(document).ready(function (){
+    $(document.body).on('click', '#shareModalClose', function (){
+      $("#shareModal").hide()
+    })
+  })
+</script>
+
+
+<script type="text/javascript" id="">!function(b,e,f,g,a,c,d){b.fbq||(a=b.fbq=function(){a.callMethod?a.callMethod.apply(a,arguments):a.queue.push(arguments)},b._fbq||(b._fbq=a),a.push=a,a.loaded=!0,a.version="2.0",a.queue=[],c=e.createElement(f),c.async=!0,c.src=g,d=e.getElementsByTagName(f)[0],d.parentNode.insertBefore(c,d))}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","549662456197936");fbq("track","PageView");</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=549662456197936&amp;ev=PageView&amp;noscript=1"></noscript>
+<script type="text/javascript" id="">!function(a,e,f,k,h,g,c,b,d){a.AppsFlyerSdkObject=h;a.AF=a.AF||function(){(a.AF.q=a.AF.q||[]).push([Date.now()].concat(Array.prototype.slice.call(arguments)))};a.AF.id=a.AF.id||c;a.AF.plugins={};b=e.createElement(f);d=e.getElementsByTagName(f)[0];b.async=1;b.src="https://websdk.appsflyer.com?"+(0<g.length?"st\x3d"+g.split(",").sort().join(",")+"\x26":"")+(0<c.length?"af_id\x3d"+c:"");d.parentNode.insertBefore(b,d)}(window,document,"script",0,"AF","banners",{banners:{key:"a377a604-f406-4446-b9b8-dae659aafba1"}});
+AF("banners","showBanner");</script></body></html>

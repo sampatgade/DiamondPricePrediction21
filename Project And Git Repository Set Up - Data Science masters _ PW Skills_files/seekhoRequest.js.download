@@ -1,0 +1,138 @@
+/*
+GET: seekhoRequest.get(parameters)
+POST: seekhoRequest.post(parameters)
+DELETE: seekhoRequest.delete(parameters)
+PATCH: seekhoRequest.patch(parameters)
+*/
+
+const seekhoRequest = (function(){
+  function ajaxCall(parameters, type){
+    let headers = {
+      "account-id": "131",
+      "utm-headers": getUtmHeaders(),
+      "x-provider-src-app" : getPlatform()
+    };
+    let extraParameters = {};
+    //ALL THE AVAILABLE PARAMETERS (add more if needed)
+    let {
+      url = '',
+      isAuthorized = false,
+      customUrl = false,
+      captureUtmHeaders = false,
+      reloadPage = false,
+      hasLmsDomain = true,
+      requestObject,
+      requestString,
+      additionalHeaders = {},
+      redirectLocation = '',
+        stopRedirect = false
+    } = parameters;
+    const isTokenPresent = (typeof token !== "undefined") && (token !== null) && (token.length !== 0);
+    const isLmsDomainPresent = (typeof lmsDomain !== "undefined") && (lmsDomain !== null) && (lmsDomain.length > 0);
+    const isUrlPresent = (typeof url !== "undefined") && (url !== null) && (url.length > 0);
+    const isRequestObjectPresent = (typeof requestObject !== "undefined") && (requestObject !== null) && (typeof requestObject === "object") ;
+    const isAdditionalHeadersPresent = (typeof additionalHeaders !== "undefined") && (typeof additionalHeaders === "object") && (additionalHeaders !== null) && (Object.keys(additionalHeaders).length !== 0);
+
+    if(!isLmsDomainPresent || !isUrlPresent){
+      return;
+    }
+    if (isLmsDomainPresent && hasLmsDomain && !customUrl) {
+      url = lmsDomain + url;
+    }
+    if(isTokenPresent && isAuthorized){
+      headers["authorization"] = "Bearer " + token;
+    }
+    if(captureUtmHeaders){
+      headers["utm-headers"] = getUtmHeaders();
+    }
+    //TODO : Refactor
+    if(requestString) {
+      extraParameters.data = requestString
+    }
+    if(isRequestObjectPresent){
+      extraParameters.data = JSON.stringify(requestObject) ;
+    }
+    if(isAdditionalHeadersPresent){
+      headers = {...headers, ...additionalHeaders};
+    }
+
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        type,
+        headers,
+        contentType: "application/json",
+        url,
+        dataType: 'json',
+        cache: true,
+        timeout: 60000,
+        ...extraParameters,
+        success: function (data) {
+          resolve(data);
+          if (reloadPage) location.reload();
+          if (!stopRedirect && redirectLocation) {
+            location.href = redirectLocation;
+          }
+        },
+        error: function (error) {
+          reject(error);
+          if (reloadPage) location.reload();
+        }
+      });
+    })
+  }
+
+  const get = async (parameters) => {
+    try {
+      return await ajaxCall(parameters, 'GET');
+    } catch (err) {
+      console.log(err)
+      return {
+        ...err.responseJSON,
+        status: err.status
+      }
+    }
+  }
+
+  const post = async (parameters) => {
+    try {
+      return await ajaxCall(parameters, 'POST');
+    } catch (err) {
+      console.log(err)
+      return {
+        ...err.responseJSON,
+        status: err.status
+      }
+    }
+  }
+
+  const del = async (parameters) => {
+    try {
+      return await ajaxCall(parameters, 'DELETE');
+    } catch (err) {
+      console.log(err)
+      return {
+        ...err.responseJSON,
+        status: err.status
+      }
+    }
+  }
+
+  const patch = async (parameters) => {
+    try {
+      return await ajaxCall(parameters, 'PATCH');
+    } catch (err) {
+      console.log(err)
+      return {
+        ...err.responseJSON,
+        status: err.status
+      }
+    }
+  }
+
+  return {
+    'get': get,
+    'post': post,
+    'delete': del,
+    'patch': patch
+  }
+})();
