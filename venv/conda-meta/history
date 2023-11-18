@@ -1,5 +1,5 @@
-==> 2023-11-07 21:37:25 <==
-# cmd: C:\Users\HP\anaconda3\Scripts\conda-script.py create -p venv python==3.8
+==> 2023-11-18 21:13:54 <==
+# cmd: C:\Users\HP\anaconda3\Scripts\conda-script.py create -p venv Python==3.8
 # conda version: 23.7.2
 +defaults/win-64::ca-certificates-2023.08.22-haa95532_0
 +defaults/win-64::openssl-1.1.1w-h2bbff1b_0
